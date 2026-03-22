@@ -1,22 +1,15 @@
-# Binaries
+# Бинарники (результаты сборки)
 *.exe
 *.exe~
-*.dll
-*.so
-*.dylib
-*.test
-*.out
+bin/
+pkg/
 
-# VS Code
+# Окружение (ВАЖНО: не пушить пароли)
+.env
+
+# Зависимости Go
+# Мы пушим go.mod и go.sum, но не сами скачанные пакеты
+vendor/
+
+# Настройки редактора
 .vscode/
-
-# Go modules
-/go.sum
-/go/pkg/
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Docker
-*.env
