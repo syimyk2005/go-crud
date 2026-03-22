@@ -1,0 +1,22 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# VS Code
+.vscode/
+
+# Go modules
+/go.sum
+/go/pkg/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+*.env
