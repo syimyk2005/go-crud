@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -101,21 +102,24 @@ func PostsUpdate(c *gin.Context) {
 }
 
 func PostsDelete(c *gin.Context) {
-
 	id := c.Param("id")
 
 	var post models.Post
-	if err := initializers.DB.Delete(&post, id).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
-			c.JSON(http.StatusNotFound, gin.H{"error": "post with id" + id + " does not exists or already was deleted"})
+	if err := initializers.DB.First(&post, id).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusNotFound, gin.H{"error": "post with id " + id + " does not exist or already was deleted"})
 			return
 		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to find post"})
+		return
+	}
+	
+	if err := initializers.DB.Delete(&post).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "post was not deleted"})
 		return
 	}
 
-	c.JSON(200, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"message": "Your post with id " + id + " was deleted",
 	})
-
 }
