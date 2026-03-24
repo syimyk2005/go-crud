@@ -22,6 +22,7 @@ func main() {
 	if err != nil {
 		panic(fmt.Sprintf("Failed to connect to DB: %v", err))
 	}
+	
 	defer db.Close()
 
 	if err := goose.Up(db, "migrations"); err != nil {
